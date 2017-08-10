@@ -22,11 +22,13 @@ namespace ScarabolMods
       ItemTypes.AddRawType("waterbucket",
         new JSONNode(NodeType.Object)
           .SetAs("maxStackSize", 5)
+          .SetAs("needsBase", "true")
           .SetAs("npcLimit", 0)
       );
       ItemTypes.AddRawType("waterbucketfilled",
         new JSONNode(NodeType.Object)
           .SetAs("maxStackSize", 5)
+          .SetAs("needsBase", "true")
           .SetAs("npcLimit", 0)
       );
     }
