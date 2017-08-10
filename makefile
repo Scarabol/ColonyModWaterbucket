@@ -1,6 +1,6 @@
 # important variables
 modname = Waterbucket
-version = 1.0
+version = 1.1
 
 moddir = Scarabol/$(modname)
 zipname = $(moddir)/Colony$(modname)Mod-$(version)-mods.zip
