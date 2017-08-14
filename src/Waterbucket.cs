@@ -53,24 +53,29 @@ namespace ScarabolMods
   {
     public static void OnWaterRemoved(Vector3Int position, ushort wasType, Players.Player causedBy)
     {
-      ushort newType;
-      if (World.TryGetTypeAt(position, out newType) && newType == ItemTypes.IndexLookup.GetIndex("waterbucket")) {
-        ThreadManager.InvokeOnMainThread(delegate ()
-        {
+      ThreadManager.InvokeOnMainThread(delegate ()
+      {
+        ushort newType;
+        if (World.TryGetTypeAt(position, out newType) && newType == ItemTypes.IndexLookup.GetIndex("waterbucket")) {
           ServerManager.TryChangeBlock(position, ItemTypes.IndexLookup.GetIndex("air"));
           Stockpile.GetStockPile(causedBy).Add(ItemTypes.IndexLookup.GetIndex("waterbucketfilled"), 1);
-        }, 0.1);
-      }
+          Chat.Send(causedBy, string.Format("filled water bucket added to your stockpile"));
+        }
+      }, 0.5);
     }
 
     public static void OnAddFilled(Vector3Int position, ushort newType, Players.Player causedBy)
     {
       ThreadManager.InvokeOnMainThread(delegate ()
       {
-        Chat.SendToAll(string.Format("Someone spilled water at {0}", position));
-        ServerManager.TryChangeBlock(position, ItemTypes.IndexLookup.GetIndex("water"));
-        Stockpile.GetStockPile(causedBy).Add(ItemTypes.IndexLookup.GetIndex("waterbucket"), 1);
-      }, 0.1);
+        ushort actualType;
+        if (World.TryGetTypeAt(position, out actualType) && actualType == ItemTypes.IndexLookup.GetIndex("waterbucketfilled")) {
+          Chat.SendToAll(string.Format("{0} spilled some water at {1}", causedBy.Name, position));
+          ServerManager.TryChangeBlock(position, ItemTypes.IndexLookup.GetIndex("water"));
+          Stockpile.GetStockPile(causedBy).Add(ItemTypes.IndexLookup.GetIndex("waterbucket"), 1);
+          Chat.Send(causedBy, string.Format("empty water bucket added to your stockpile"));
+        }
+      }, 0.5);
     }
   }
 }
