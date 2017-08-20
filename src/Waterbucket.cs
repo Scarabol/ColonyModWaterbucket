@@ -16,6 +16,7 @@ namespace ScarabolMods
     private static string AssetsDirectory;
     private static string RelativeTexturesPath;
     private static string RelativeIconsPath;
+    private static Recipe recipeBucket;
 
     [ModLoader.ModCallback(ModLoader.EModCallbackType.OnAssemblyLoaded, "scarabol.waterbucket.assemblyload")]
     public static void OnAssemblyLoaded(string path)
@@ -86,10 +87,17 @@ namespace ScarabolMods
     [ModLoader.ModCallbackProvidesFor("pipliz.apiprovider.registerrecipes")]
     public static void AfterItemTypesDefined()
     {
-      RecipePlayer.AllRecipes.Add(new Recipe(new JSONNode()
+      recipeBucket = new Recipe(new JSONNode()
         .SetAs("results", new JSONNode(NodeType.Array).AddToArray(new JSONNode().SetAs("type", MOD_PREFIX + "bucket")))
         .SetAs("requires", new JSONNode(NodeType.Array).AddToArray(new JSONNode().SetAs("type", "ironingot").SetAs("amount", 3)))
-      ));
+      );
+    }
+
+    [ModLoader.ModCallback(ModLoader.EModCallbackType.AfterWorldLoad, "scarabol.waterbucket.addplayercrafts")]
+    public static void AfterWorldLoad()
+    {
+      // add recipes here, otherwise they're inserted before vanilla recipes in player crafts
+      RecipePlayer.AllRecipes.Add(recipeBucket);
     }
   }
 
