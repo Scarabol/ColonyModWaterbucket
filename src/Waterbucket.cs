@@ -32,7 +32,7 @@ namespace ScarabolMods
     [ModLoader.ModCallback(ModLoader.EModCallbackType.AfterStartup, "scarabol.waterbucket.registercallbacks")]
     public static void AfterStartup()
     {
-      Pipliz.Log.Write("Loaded Waterbucket Mod 1.1 by Scarabol");
+      Pipliz.Log.Write("Loaded Waterbucket Mod 1.1.1 by Scarabol");
     }
 
     [ModLoader.ModCallback(ModLoader.EModCallbackType.AfterAddingBaseTypes, "scarabol.waterbucket.addrawtypes")]
