@@ -24,7 +24,7 @@ namespace ScarabolMods
       string ModDirectory = Path.GetDirectoryName(path);
       AssetsDirectory = Path.Combine(ModDirectory, "assets");
       ModLocalizationHelper.localize(Path.Combine(AssetsDirectory, "localization"), MOD_PREFIX, false);
-      // TODO this is realy hacky (maybe better in future ModAPI)
+      // TODO this is really hacky (maybe better in future ModAPI)
       RelativeTexturesPath = new Uri(MultiPath.Combine(Path.GetFullPath("gamedata"), "textures", "materials", "blocks", "albedo", "dummyfile")).MakeRelativeUri(new Uri(MultiPath.Combine(AssetsDirectory, "textures", "albedo"))).OriginalString;
       RelativeIconsPath = new Uri(MultiPath.Combine(Path.GetFullPath("gamedata"), "textures", "icons", "dummyfile")).MakeRelativeUri(new Uri(MultiPath.Combine(AssetsDirectory, "icons"))).OriginalString;
     }
@@ -87,10 +87,7 @@ namespace ScarabolMods
     [ModLoader.ModCallbackProvidesFor("pipliz.apiprovider.registerrecipes")]
     public static void AfterItemTypesDefined()
     {
-      recipeBucket = new Recipe(new JSONNode()
-        .SetAs("results", new JSONNode(NodeType.Array).AddToArray(new JSONNode().SetAs("type", MOD_PREFIX + "bucket")))
-        .SetAs("requires", new JSONNode(NodeType.Array).AddToArray(new JSONNode().SetAs("type", "ironingot").SetAs("amount", 3)))
-      );
+      recipeBucket = new Recipe(new InventoryItem("ironingot", 3), new InventoryItem(MOD_PREFIX + "bucket", 1));
     }
 
     [ModLoader.ModCallback(ModLoader.EModCallbackType.AfterWorldLoad, "scarabol.waterbucket.addplayercrafts")]
